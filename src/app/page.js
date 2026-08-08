@@ -1,10 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [inputText, setInputText] = useState("");
   const [results, setResults] = useState([]);
+
+  // Load data from localStorage on mount
+  useEffect(() => {
+    const savedInput = localStorage.getItem("formatterInputText");
+    const savedResults = localStorage.getItem("formatterResults");
+    
+    if (savedInput) {
+      setInputText(savedInput);
+    }
+    if (savedResults) {
+      try {
+        setResults(JSON.parse(savedResults));
+      } catch (e) {
+        console.error("Error parsing saved results", e);
+      }
+    }
+  }, []);
+
+  // Save data to localStorage when state changes
+  useEffect(() => {
+    localStorage.setItem("formatterInputText", inputText);
+  }, [inputText]);
+
+  useEffect(() => {
+    localStorage.setItem("formatterResults", JSON.stringify(results));
+  }, [results]);
+
+  const handleReset = () => {
+    if (window.confirm("Are you sure you want to reset all data? This cannot be undone.")) {
+      setInputText("");
+      setResults([]);
+      localStorage.removeItem("formatterInputText");
+      localStorage.removeItem("formatterResults");
+    }
+  };
 
   const handleFormatAndAdd = () => {
     if (!inputText.trim()) return;
@@ -109,13 +144,22 @@ export default function Home() {
             onChange={(e) => setInputText(e.target.value)}
           ></textarea>
           
-          <button className="btn" onClick={handleFormatAndAdd}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Remove Enters & Add
-          </button>
+          <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+            <button className="btn" onClick={handleFormatAndAdd} style={{ flex: 1 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Remove Enters & Add
+            </button>
+            <button className="btn" onClick={handleReset} style={{ flex: 1, backgroundColor: '#f44336', borderColor: '#d32f2f' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              Reset Data
+            </button>
+          </div>
         </section>
 
       </div>
