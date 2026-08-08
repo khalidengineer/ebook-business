@@ -39,10 +39,15 @@ jobs:
         run: npm run build
         working-directory: ./Prompt-Paragraph
         
+      - name: Prepare artifact
+        run: |
+          mkdir -p deploy_root/Prompt-Paragraph
+          cp -r ./Prompt-Paragraph/out/* deploy_root/Prompt-Paragraph/
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./Prompt-Paragraph/out
+          path: ./deploy_root
 
   deploy:
     environment:
