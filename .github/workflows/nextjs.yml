@@ -41,8 +41,8 @@ jobs:
         
       - name: Prepare artifact
         run: |
-          mkdir -p deploy_root/Prompt-Paragraph
-          cp -r ./Prompt-Paragraph/out/* deploy_root/Prompt-Paragraph/
+          mkdir -p deploy_root
+          cp -r ./Prompt-Paragraph/out/* deploy_root/
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
