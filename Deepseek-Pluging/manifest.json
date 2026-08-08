@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "DeepSeek Auto Prompter",
+  "version": "1.0",
+  "description": "Automatically send a list of prompts to DeepSeek AI at a specified interval.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
+    "*://chat.deepseek.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "DeepSeek Auto Prompter"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

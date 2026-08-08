@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DeepSeek Auto Prompter</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 320px;
+      padding: 15px;
+      margin: 0;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+    label {
+      font-size: 13px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-family: inherit;
+    }
+    .input-group {
+      margin-bottom: 10px;
+    }
+    .input-group input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+      transition: background-color 0.2s;
+    }
+    #startBtn {
+      background-color: #27ae60;
+    }
+    #startBtn:hover { background-color: #219653; }
+    #stopBtn {
+      background-color: #e74c3c;
+    }
+    #stopBtn:hover { background-color: #c0392b; }
+    #resetBtn {
+      background-color: #f39c12;
+    }
+    #resetBtn:hover { background-color: #d68910; }
+    
+    .status-container {
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #eee;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .status-header {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .status-list {
+      max-height: 120px;
+      overflow-y: auto;
+      font-size: 12px;
+      margin: 0;
+      padding-left: 20px;
+    }
+    .status-list li {
+      margin-bottom: 3px;
+    }
+    .status-list li.done {
+      color: #27ae60;
+      text-decoration: line-through;
+    }
+    .status-list li.pending {
+      color: #7f8c8d;
+    }
+    .status-list li.active {
+      color: #f39c12;
+      font-weight: bold;
+    }
+    #errorMsg {
+      color: #e74c3c;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>DeepSeek Auto Prompter</h2>
+  
+  <div class="input-group">
+    <label for="prompts">Prompts (one per line):</label>
+    <textarea id="prompts" placeholder="Enter prompt 1&#10;Enter prompt 2&#10;Enter prompt 3"></textarea>
+  </div>
+  
+  <div class="input-group">
+    <label for="interval">Interval (Seconds):</label>
+    <input type="number" id="interval" value="30" min="1">
+  </div>
+  
+  <div id="errorMsg"></div>
+
+  <div class="controls">
+    <button id="startBtn">Start</button>
+    <button id="stopBtn">Stop</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+  
+  <div class="status-container">
+    <div class="status-header">
+      <span>Status: <span id="statusText">Idle</span> <span id="countdownText" style="color: #e67e22; font-weight: bold; margin-left: 5px;"></span></span>
+      <span id="progressText">0/0</span>
+    </div>
+    <ul class="status-list" id="statusList">
+    </ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
