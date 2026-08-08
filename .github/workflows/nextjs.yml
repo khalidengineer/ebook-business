@@ -33,16 +33,14 @@ jobs:
           
       - name: Install dependencies
         run: npm ci
-        working-directory: ./Prompt-Paragraph
         
       - name: Build with Next.js
         run: npm run build
-        working-directory: ./Prompt-Paragraph
         
       - name: Prepare artifact
         run: |
           mkdir -p deploy_root
-          cp -r ./Prompt-Paragraph/out/* deploy_root/
+          cp -r ./out/* deploy_root/
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
